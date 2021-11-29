@@ -5,6 +5,7 @@
 
     error_reporting(E_ALL^ E_WARNING);
     echo "LFI<br>?flag=flag<br>";
+    echo "FLAG 파일은 ../FLAG/I_am_LFIflag.php입니다!!<br>";
     if(!empty($_GET['flag'])){
         if($_GET['flag']==='flag.php'){
             echo "You have to run the php file!!<br>";

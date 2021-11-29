@@ -2,6 +2,7 @@
     include "../config.php";
     session_check();
     echo "file DOWNLOAD<br>";
+    echo "<br>FLAG 파일은 ../FLAG/THIS_is_downFLAG.php입니다!!<br>";
     echo "<a href='?file=testfile'>test</a>";
     if(!empty($_GET['file'])){
         $file = $_GET['file'];

@@ -6,7 +6,6 @@
         $ser_str = $_GET['c1'];
         $un = unserialize($ser_str);
         if($un == md5($un)){
-            include  "../config.php";
             echo "<br>Go to next Round<br>";
             echo MAGIC_FLAG1."<br>";
             echo "<a href='magic2.php'>Next Round</a>";

@@ -7,7 +7,6 @@
         $rand_cmp = md5(random_bytes(32));
         $s2 = $_GET['c2'];
         if(strcmp($s2, $rand_cmp) == 0){
-            include  "../config.php";
             echo "<br>".MAGIC_FLAG2;
         }
     }  

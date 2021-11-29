@@ -48,7 +48,7 @@
                     $q = "INSERT INTO user(id, name, password) VALUES (?,?,?)";
                     $stmt= $db->prepare($q)->execute([$id, $name, $pw]);
                     echo "register Success!!";
-                    header("location:login.php");
+                    header("location:main.php");
                 }
             }
         }

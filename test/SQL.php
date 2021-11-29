@@ -16,6 +16,7 @@
         <input type="password" name="pw">
         <input type="submit" id="submit" name="submit" value="submit">
     </form>
+    <p>admin의 계정으로 로그인 하세요!!</p>
 </body>
 </html>
 <?php
@@ -24,7 +25,6 @@
         if(!empty($_POST['submit'])){
             error_reporting(E_ALL^ E_WARNING);
             $DB = new SQLite3('database.db');
-            include  "../config.php";
         
             $name = $_POST['name'];
             $pw = $_POST['pw'];
