@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php session_start()?>
+<?php 
+    session_start();
+    include "config.php";
+?>
 <head>
     
     <meta charset="UTF-8">
@@ -27,7 +30,6 @@
             $name = $_SESSION['user_name'];
             $db = mysqli_connect("127.0.0.1", "root", "", "sunrin");
             if(!empty($_POST['flag_submit'])){
-                include "config.php";
                 for($i = 0; $i<count(FLAG); $i++){
                     if(FLAG[$i] === $_POST['flag']){
                         $cnt = $i+1;
@@ -38,11 +40,33 @@
             }
             $q = "select chall1, chall2, chall3, chall4, chall5 from user where id='$id'";
             $r = mysqli_query($db, $q);
-            $re = mysqli_fetch_row($r);
+            $re = mysqli_fetch_row($r); 
             $score = (int)array_count_values($re)['1'] * 1000;
             echo "<p><strong>$name</strong>($id)";
             echo "<br>score : $score";
-            echo "<br><a href=\"logout.php\">[로그아웃]</a></p>";
+            echo "<br><a href=\"logout.php\">[로그아웃]</a></p><br><h1>Ranking</h1>";
+            $q = "select * from user";
+            $r = mysqli_query($db, $q);
+            $ranking = array();
+            for($i=0;$i<mysqli_num_rows($r);$i++){
+                $re = mysqli_fetch_row($r);
+                $score = array_slice($re, 3,7);
+                $score = (int)array_count_values($score)['1']*1000;
+                array_push($ranking, array('name'=>$re[1], 'score'=>$score));
+            }
+            $ranking = arr_sort($ranking, 'score' , 'desc' );
+
+            echo "<table border='1' width='200' height='100'>
+                        <th>Name</th>
+                        <th>Score</th>";
+            for($i=0;$i<count($ranking);$i++){
+                echo        "<tr>
+                                <td>".$ranking[$i]['name']."</td>
+                                <td>".$ranking[$i]['score']."</td>
+                            </tr>";
+                    
+            }
+            echo "</table>";
         }
         else{
     ?>

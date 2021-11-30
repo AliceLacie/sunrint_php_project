@@ -15,4 +15,28 @@
             header("location:../main.php");
         }
     }
+    
+    function arr_sort($array, $key, $sort){
+        $keys = array();
+        $vals = array();
+        foreach( $array as $k=>$v ){
+          $i = $v[$key].'.'.$k;
+          $vals[$i] = $v;
+          array_push($keys, $k);
+        }
+        unset($array);
+      
+        if( $sort=='asc' ){
+          ksort($vals);
+        }else{
+          krsort($vals);
+        }
+        
+        $ret = array_combine( $keys, $vals );
+      
+        unset($keys);
+        unset($vals);
+        
+        return $ret;
+    }
 ?>
