@@ -42,35 +42,27 @@
             $r = mysqli_query($db, $q);
             $re = mysqli_fetch_row($r); 
             $score = (int)array_count_values($re)['1'] * 1000;
+            $q = "update user set score=$score where id='$id'";
+            mysqli_query($db, $q);
             echo "<p><strong>$name</strong>($id)";
             echo "<br>score : $score";
             echo "<br><a href=\"logout.php\">[로그아웃]</a></p><br><h1>Ranking</h1>";
-            $q = "select * from user";
+            $q = "select * from user order by score desc";
             $r = mysqli_query($db, $q);
-            $ranking = array();
-            for($i=0;$i<mysqli_num_rows($r);$i++){
-                $re = mysqli_fetch_row($r);
-                $score = array_slice($re, 3,7);
-                $score = (int)array_count_values($score)['1']*1000;
-                array_push($ranking, array('name'=>$re[1], 'score'=>$score));
-            }
-            $ranking = arr_sort($ranking, 'score' , 'desc' );
-
             echo "<table border='1' width='200' height='100'>
-                        <th>Name</th>
-                        <th>Score</th>";
-            for($i=0;$i<count($ranking);$i++){
-                echo        "<tr>
-                                <td>".$ranking[$i]['name']."</td>
-                                <td>".$ranking[$i]['score']."</td>
+            <th>Name</th>
+            <th>Score</th>";
+            for($i=0;$i<mysqli_num_rows($r); $i++){
+               $result = mysqli_fetch_array($r);
+               echo        "<tr>
+                                <td>".$result['name']."</td>
+                                <td>".$result['score']."</td>
                             </tr>";
-                    
             }
             echo "</table>";
-        }
-        else{
+        }else{
     ?>
-    <form action="main.php" method="POST">
+    <form action="index.php" method="POST">
         id : <input type="text" name="id"><br>
         pw : <input type="password" name="pw"><br>
         <input type="submit" value="submit" name="submit"><br>
@@ -86,19 +78,6 @@
 
             $user = 'root';
             $pass = '';
-
-            // $host = 'localhost';
-            // $db   = 'sunrin';
-            // $port = "3306";
-            // $charset = 'utf8mb4';
-
-            // $options = [
-            //     \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-            //     \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            //     \PDO::ATTR_EMULATE_PREPARES   => false,
-            // ];
-
-            // $dsn = "mysql:host=$localhost;dbname=$db;charset=$charset;port=$port";
             $dsn = "mysql:host=localhost;dbname=sunrin;charset=utf8mb4;port=3306";
             try {
                 $db = new \PDO($dsn, $user, $pass);
@@ -107,16 +86,17 @@
             }
             $query = "select * from user where id=? and password=?";
             $stmt = $db->prepare($query); 
-            $stmt->execute(array($id, $pw)); 
+            $stmt->execute(array($id, md5($pw))); 
             $result = $stmt->fetchAll(PDO::FETCH_NUM);
 
             if(!empty($result)){
                 $_SESSION['user_id'] = $id;
                 $_SESSION['user_name'] = $result[0][1];
-                header("location:main.php");
+                header("location:index.php");
             }
             else{
                 echo "Login Fail...";
+                echo  md5($pw);
             } 
         }
         ?>

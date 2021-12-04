@@ -46,9 +46,9 @@
                 }
                 else{
                     $q = "INSERT INTO user(id, name, password) VALUES (?,?,?)";
-                    $stmt= $db->prepare($q)->execute([$id, $name, $pw]);
+                    $stmt= $db->prepare($q)->execute([$id, $name, md5($pw)]);
                     echo "register Success!!";
-                    header("location:main.php");
+                    header("location:index.php");
                 }
             }
         }
