@@ -96,7 +96,6 @@
             }
             else{
                 echo "Login Fail...";
-                echo  md5($pw);
             } 
         }
         ?>
