@@ -18,7 +18,7 @@
             include($file.'.php');   
         }
         else{
-            echo "다른 php file은 접근할수 없습니다..";
+            echo "다른 php file은 접근할 수 없습니다..";
         }
     }
 ?>

@@ -1,0 +1,19 @@
+create database sunrin;
+use sunrin;
+
+create table user(
+id varchar(20),
+name varchar(10),
+password varchar(10),
+chall1 boolean not null default 0,
+chall2 boolean not null default 0,
+chall3 boolean not null default 0,
+chall4 boolean not null default 0,
+chall5 boolean not null default 0,
+score int default 0
+);
+
+insert into user(id, name, password) values
+("test", "test", "test");
+
+select * from user;
